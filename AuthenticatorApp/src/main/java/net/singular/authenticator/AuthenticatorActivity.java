@@ -59,6 +59,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -194,7 +197,12 @@ public class AuthenticatorActivity extends TestableActivity {
   private static final int BARCODE_SCAN_INITIATOR_OTP = 1;
   private static final int BARCODE_SCAN_INITIATOR_SINGULAR = 2;
 
+  // Singular 2FA related
   private int mBarcodeScanInitiator;
+
+  private String mRemotePSK = null;
+  private String mRemoteRegistrationID = null;
+  private String mLocalRegistrationID = null;
 
   /** Called when the activity is first created. */
   @Override
@@ -809,9 +817,20 @@ public class AuthenticatorActivity extends TestableActivity {
 
   private void interpretSingularPairingQR(String result)
   {
-    Toast.makeText(getApplicationContext(), "Received Singular pairing parameters, pairing!", Toast.LENGTH_SHORT).show();
+    Toast.makeText(getApplicationContext(), "Received Singular pairing parameters, pairing!", Toast.LENGTH_LONG).show();
 
-    // TODO: handle protocol here
+    try {
+      JSONObject json = new JSONObject(result);
+
+      mRemotePSK = json.getString("PSK");
+      mRemoteRegistrationID = json.getString("registrationId");
+
+
+    }
+    catch (JSONException e)
+    {
+      Toast.makeText(getApplicationContext(), "Failed to parse Singular QR :(", Toast.LENGTH_LONG).show();
+    }
   }
   private void displayHowItWorksInstructions() {
     startActivity(new Intent(this, IntroEnterPasswordActivity.class));

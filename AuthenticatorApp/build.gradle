@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.singular.authenticator"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 22
 
         testApplicationId "net.singular.authenticator.tests"
@@ -17,8 +17,8 @@ android {
         playStore {
         }
         openSource {
-            applicationId "net.singular.authenticator.os"
-            testApplicationId "net.singular.authenticator.tests.os"
+            applicationId "net.singular.authenticator"
+            testApplicationId "net.singular.authenticator.tests"
         }
         openSourceDev {
             applicationId "net.singular.authenticator.osdev"
@@ -43,3 +43,5 @@ android {
         androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

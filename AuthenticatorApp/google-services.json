@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "819389492169",
+    "firebase_url": "https://two-factor-helper.firebaseio.com",
+    "project_id": "two-factor-helper",
+    "storage_bucket": "two-factor-helper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819389492169:android:5920de3503a2d18c",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819389492169-9dke3vmbr3fmc9dj3qn190epklg1luvt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByNzMTce_12WiSUuv44eB1zZ8fquZPEwE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819389492169:android:e52b6e25711b2ee9",
+        "android_client_info": {
+          "package_name": "net.singular.authenticator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819389492169-9dke3vmbr3fmc9dj3qn190epklg1luvt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByNzMTce_12WiSUuv44eB1zZ8fquZPEwE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
