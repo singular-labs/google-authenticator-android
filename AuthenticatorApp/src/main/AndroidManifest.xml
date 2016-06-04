@@ -84,6 +84,13 @@
               android:theme="@android:style/Theme.Translucent.NoTitleBar"
               android:label="@string/timesync_sync_now_screen_title" />
 
+    <service
+        android:name="net.singular.authenticator.SingularFirebaseInstanceIDService">
+      <intent-filter>
+        <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+      </intent-filter>
+    </service>
+
   </application>
 
 </manifest>

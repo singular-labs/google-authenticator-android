@@ -59,6 +59,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -306,8 +308,20 @@ public class AuthenticatorActivity extends TestableActivity {
     if (ACTION_SCAN_BARCODE.equals(action)) {
       mBarcodeScanInitiator = BARCODE_SCAN_INITIATOR_OTP;
       scanBarcode();
-    } else if (intent.getData() != null) {
+
+      return;
+    }
+
+    if (intent.getStringExtra("RegistrationID") != null) {
+      mLocalRegistrationID = intent.getStringExtra("RegistrationID");
+
+      return;
+    }
+
+    if (intent.getData() != null) {
       interpretScanResult(intent.getData(), true);
+
+      return;
     }
   }
 
@@ -824,6 +838,8 @@ public class AuthenticatorActivity extends TestableActivity {
 
       mRemotePSK = json.getString("PSK");
       mRemoteRegistrationID = json.getString("registrationId");
+
+      mLocalRegistrationID = FirebaseInstanceId.getInstance().getToken();
 
 
     }
