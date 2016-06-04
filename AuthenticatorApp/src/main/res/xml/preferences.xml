@@ -23,7 +23,7 @@
     android:persistent="false">
     <intent
       android:targetPackage="@string/app_package_name"
-      android:targetClass="com.google.android.apps.authenticator.timesync.SettingsTimeCorrectionActivity">
+      android:targetClass="com.google.authenticator.timesync.SettingsTimeCorrectionActivity">
     </intent>
   </PreferenceScreen>
 
@@ -33,7 +33,7 @@
     android:persistent="false">
     <intent
       android:targetPackage="@string/app_package_name"
-      android:targetClass="com.google.android.apps.authenticator.SettingsAboutActivity">
+      android:targetClass="com.google.authenticator.SettingsAboutActivity">
     </intent>
   </PreferenceScreen>
 </PreferenceScreen>

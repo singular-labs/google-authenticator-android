@@ -5,11 +5,11 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.google.android.apps.authenticator2"
+        applicationId "net.singular.authenticator"
         minSdkVersion 8
         targetSdkVersion 22
 
-        testApplicationId "com.google.android.apps.authenticator2.tests"
+        testApplicationId "net.singular.authenticator.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
@@ -17,12 +17,12 @@ android {
         playStore {
         }
         openSource {
-            applicationId "com.google.android.apps.authenticator2.os"
-            testApplicationId "com.google.android.apps.authenticator2.tests.os"
+            applicationId "net.singular.authenticator.os"
+            testApplicationId "net.singular.authenticator.tests.os"
         }
         openSourceDev {
-            applicationId "com.google.android.apps.authenticator2.osdev"
-            testApplicationId "com.google.android.apps.authenticator2.tests.osdev"
+            applicationId "net.singular.authenticator.osdev"
+            testApplicationId "net.singular.authenticator.tests.osdev"
         }
     }
 

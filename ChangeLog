@@ -17,7 +17,7 @@ v2.21
 
 v2.15
 
-* Changed package name from com.google.android.apps.authenticator to
+* Changed package name from com.google.authenticator to
   com.google.android.apps.authenticator2 and changed the signing key.
   This is a new app as far as the Android OS and Google Play are concerned.
   The app securely imports data from the "old" app (v0.91).
