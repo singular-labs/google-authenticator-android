@@ -192,6 +192,11 @@ public class AuthenticatorActivity extends TestableActivity {
   // @VisibleForTesting
   static final int SCAN_REQUEST = 31337;
 
+  private static final int BARCODE_SCAN_INITIATOR_OTP = 1;
+  private static final int BARCODE_SCAN_INITIATOR_SINGULAR = 2;
+
+  private int mBarcodeScanInitiator;
+
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -292,6 +297,7 @@ public class AuthenticatorActivity extends TestableActivity {
     }
 
     if (ACTION_SCAN_BARCODE.equals(action)) {
+      mBarcodeScanInitiator = BARCODE_SCAN_INITIATOR_OTP;
       scanBarcode();
     } else if (intent.getData() != null) {
       interpretScanResult(intent.getData(), true);
@@ -766,6 +772,9 @@ public class AuthenticatorActivity extends TestableActivity {
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
     switch (item.getItemId()) {
+      case R.id.singular_2fa:
+        pairWithSingular2FA();
+        return true;
       case R.id.add_account:
         addAccount();
         return true;
@@ -786,17 +795,37 @@ public class AuthenticatorActivity extends TestableActivity {
     if (requestCode == SCAN_REQUEST && resultCode == Activity.RESULT_OK) {
       // Grab the scan results and convert it into a URI
       String scanResult = (intent != null) ? intent.getStringExtra("SCAN_RESULT") : null;
-      Uri uri = (scanResult != null) ? Uri.parse(scanResult) : null;
-      interpretScanResult(uri, false);
+
+      if (mBarcodeScanInitiator == BARCODE_SCAN_INITIATOR_SINGULAR)
+      {
+        interpretSingularPairingQR(scanResult);
+      }
+      else
+      {
+        Uri uri = (scanResult != null) ? Uri.parse(scanResult) : null;
+        interpretScanResult(uri, false);
+      }
     }
   }
 
+  private void interpretSingularPairingQR(String result)
+  {
+    Toast.makeText(getApplicationContext(), "Received Singular pairing parameters, pairing!", Toast.LENGTH_SHORT).show();
+
+    // TODO: handle protocol here
+  }
   private void displayHowItWorksInstructions() {
     startActivity(new Intent(this, IntroEnterPasswordActivity.class));
   }
 
   private void addAccount() {
     DependencyInjector.getOptionalFeatures().onAuthenticatorActivityAddAccount(this);
+  }
+
+  private void pairWithSingular2FA()
+  {
+    mBarcodeScanInitiator = BARCODE_SCAN_INITIATOR_SINGULAR;
+    scanBarcode();
   }
 
   private void scanBarcode() {
