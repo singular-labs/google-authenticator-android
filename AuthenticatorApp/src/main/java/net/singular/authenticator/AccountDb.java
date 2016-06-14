@@ -386,7 +386,7 @@ public class AccountDb {
     }
   }
 
-  private Cursor getNames() {
+  protected Cursor getNames() {
     return mDatabase.query(TABLE_NAME, null, null, null, null, null, null, null);
   }
 

@@ -12,15 +12,19 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import net.singular.authenticator.testability.DependencyInjector;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "SingularFMS";
-
+    private AccountDb mAccountDb;
     /**
      * Called when message is received.
      *
@@ -42,7 +46,7 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "command: " + command);
             switch(command){
                 case "getAccounts":
-                    handleGetAccount();
+                    handleGetAccounts();
                     break;
                 case "getCode":
                     int id = value.getInt("id");
@@ -61,8 +65,21 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "handleGetCode: " + Integer.toString(id));
     }
 
-    private void handleGetAccount() {
-        Log.d(TAG, "handleGetAccount");
+    private void handleGetAccounts() throws JSONException {
+        Log.d(TAG, "handleGetAccounts");
+        mAccountDb = DependencyInjector.getAccountDb();
+        ArrayList<String> usernames = new ArrayList<String>();
+        mAccountDb.getNames(usernames);
+        JSONObject response = new JSONObject();
+        JSONArray accounts_array = new JSONArray();
+        for(int i=0; i<usernames.size(); ++i){
+            JSONObject account = new JSONObject();
+            account.put("name", usernames.get(i));
+            account.put("id", i);
+            accounts_array.put(account);
+        }
+        response.put("accounts", accounts_array);
+        Log.d(TAG, "handleGetAccounts: response = " + response.toString());
     }
     // [END receive_message]
 
