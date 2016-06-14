@@ -25,6 +25,8 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "SingularFMS";
     private AccountDb mAccountDb;
+    private OtpSource mOtpProvider;
+
     /**
      * Called when message is received.
      *
@@ -63,6 +65,21 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private void handleGetCode(int id) {
         Log.d(TAG, "handleGetCode: " + Integer.toString(id));
+        mOtpProvider = DependencyInjector.getOtpProvider();
+        try {
+            String code = mOtpProvider.getNextCode(getUsername(id));
+            Log.d(TAG, "handleGetCode: code = " + code);
+        } catch (OtpSourceException ignored) {
+            ignored.printStackTrace();
+        }
+
+    }
+
+    private String getUsername(int id){
+        mAccountDb = DependencyInjector.getAccountDb();
+        ArrayList<String> usernames = new ArrayList<String>();
+        mAccountDb.getNames(usernames);
+        return usernames.get(id);
     }
 
     private void handleGetAccounts() throws JSONException {
@@ -81,7 +98,6 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         response.put("accounts", accounts_array);
         Log.d(TAG, "handleGetAccounts: response = " + response.toString());
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received FCM message.
