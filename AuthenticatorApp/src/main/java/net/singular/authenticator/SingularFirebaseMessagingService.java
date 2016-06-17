@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -19,7 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import net.singular.authenticator.SingularFCMProxyProtocol;
 
 public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -41,6 +49,7 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Map<String, String> msg_data = remoteMessage.getData();
         String src = msg_data.get("src");
+
         // todo: verify that src matches the paired src
         try {
             JSONObject value = new JSONObject(msg_data.get("value"));
@@ -48,11 +57,11 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "command: " + command);
             switch(command){
                 case "getAccounts":
-                    handleGetAccounts();
+                    handleGetAccounts(src);
                     break;
                 case "getCode":
                     int id = value.getInt("id");
-                    handleGetCode(id);
+                    handleGetCode(src, id);
                     break;
                 default:
                     Log.e(TAG, "unknown command: " + command);
@@ -63,11 +72,15 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void handleGetCode(int id) {
+    private void handleGetCode(String from, int id) {
         Log.d(TAG, "handleGetCode: " + Integer.toString(id));
         mOtpProvider = DependencyInjector.getOtpProvider();
         try {
             String code = mOtpProvider.getNextCode(getUsername(id));
+
+            SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
+            p.sendCode(id, code);
+
             Log.d(TAG, "handleGetCode: code = " + code);
         } catch (OtpSourceException ignored) {
             ignored.printStackTrace();
@@ -82,21 +95,37 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         return usernames.get(id);
     }
 
-    private void handleGetAccounts() throws JSONException {
+    private void handleGetAccounts(String from) {
         Log.d(TAG, "handleGetAccounts");
         mAccountDb = DependencyInjector.getAccountDb();
-        ArrayList<String> usernames = new ArrayList<String>();
+        ArrayList<String> usernames = new ArrayList<>();
         mAccountDb.getNames(usernames);
-        JSONObject response = new JSONObject();
-        JSONArray accounts_array = new JSONArray();
-        for(int i=0; i<usernames.size(); ++i){
-            JSONObject account = new JSONObject();
+
+        List<HashMap<String, Object>> accountList = new ArrayList<>();
+
+        for(int i = 0; i < usernames.size(); ++i){
+            HashMap<String, Object> account = new HashMap<>();
+
             account.put("name", usernames.get(i));
             account.put("id", i);
-            accounts_array.put(account);
+
+            accountList.add(account);
         }
-        response.put("accounts", accounts_array);
-        Log.d(TAG, "handleGetAccounts: response = " + response.toString());
+
+        HashMap<String, Object> account_mock = new HashMap<>();
+
+        account_mock.put("name", "Jesus");
+        account_mock.put("id", 666);
+
+        accountList.add(account_mock);
+
+        // need to prepare a looper in the GCM thread so that the AsyncHttpClient works
+        Looper.prepare();
+
+        SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
+        p.sendAccountList(accountList);
+
+        Log.d(TAG, "handleGetAccounts: response = " + accountList.toString());
     }
 
     /**

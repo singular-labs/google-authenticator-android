@@ -1,5 +1,8 @@
 package net.singular.authenticator;
 
+import android.os.Looper;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,16 +12,19 @@ import com.loopj.android.http.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class SingularFCMProxyProtocol {
     private AsyncHttpClient client = new AsyncHttpClient();
-    private static final String FCMProxyEndpoint = "http://10.0.2.2:1119/send";
+    private static final String FCMProxyEndpoint = "http://192.168.1.6:8080/send";
 
     private String mLocalRegistrationID;
     private String mRemoteRegistrationID;
+
+    private static final String TAG = "SingularFCMProxy";
 
     SingularFCMProxyProtocol(String localRegistrationID, String remoteRegistrationID)
     {
@@ -36,44 +42,44 @@ public class SingularFCMProxyProtocol {
             this.postJSON(params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    System.out.println(response);
+                    Log.d(TAG, response.toString());
                 }
             });
         } catch (JSONException e)
         {
-
+            Log.e(TAG, "JSONException");
         }
         catch (UnsupportedEncodingException e)
         {
-
+            Log.e(TAG, "UnsupportedEncodingException");
         }
     }
 
-    public void sendAccountList(ArrayList accountList)
+    public void sendAccountList(List accountList)
     {
         try {
             JSONObject params = new JSONObject();
 
             params.put("command", "accountList");
-            params.put("accounts", accountList);
+            params.put("accounts", new JSONArray(accountList));
 
             this.postJSON(params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    System.out.println(response);
+                    Log.d(TAG, response.toString());
                 }
             });
         } catch (JSONException e)
         {
-
+            Log.e(TAG, "JSONException");
         }
         catch (UnsupportedEncodingException e)
         {
-
+            Log.e(TAG, "UnsupportedEncodingException");
         }
     }
 
-    public void sendCode(String value, String id)
+    public void sendCode(int id, String value)
     {
         try {
             JSONObject params = new JSONObject();
@@ -85,20 +91,20 @@ public class SingularFCMProxyProtocol {
             this.postJSON(params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    System.out.println(response);
+                    Log.d(TAG, response.toString());
                 }
             });
         } catch (JSONException e)
         {
-
+            Log.e(TAG, "JSONException");
         }
         catch (UnsupportedEncodingException e)
         {
-
+            Log.e(TAG, "UnsupportedEncodingException");
         }
     }
 
-    public void reject(String id)
+    public void reject(int id)
     {
         try {
             JSONObject params = new JSONObject();
@@ -109,16 +115,16 @@ public class SingularFCMProxyProtocol {
             this.postJSON(params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    System.out.println(response);
+                    Log.d(TAG, response.toString());
                 }
             });
         } catch (JSONException e)
         {
-
+            Log.e(TAG, "JSONException");
         }
         catch (UnsupportedEncodingException e)
         {
-
+            Log.e(TAG, "UnsupportedEncodingException");
         }
     }
 
