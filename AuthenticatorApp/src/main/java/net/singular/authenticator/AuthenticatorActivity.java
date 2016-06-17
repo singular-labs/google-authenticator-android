@@ -65,7 +65,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+
+import net.singular.authenticator.SingularFCMProxyProtocol;
 
 /**
  * The main activity that displays usernames and codes
@@ -841,7 +845,8 @@ public class AuthenticatorActivity extends TestableActivity {
 
       mLocalRegistrationID = FirebaseInstanceId.getInstance().getToken();
 
-
+      SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(mLocalRegistrationID, mRemoteRegistrationID);
+      proxy.sendHello();
     }
     catch (JSONException e)
     {

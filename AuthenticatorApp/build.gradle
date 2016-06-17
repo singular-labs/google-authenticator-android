@@ -44,6 +44,8 @@ android {
 
         compile 'com.google.firebase:firebase-core:9.0.2'
         compile 'com.google.firebase:firebase-messaging:9.0.2'
+
+        compile 'com.loopj.android:android-async-http:1.4.9'
     }
 }
 
