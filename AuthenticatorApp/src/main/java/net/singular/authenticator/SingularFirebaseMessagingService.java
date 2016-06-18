@@ -112,13 +112,6 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
             accountList.add(account);
         }
 
-        HashMap<String, Object> account_mock = new HashMap<>();
-
-        account_mock.put("name", "Jesus");
-        account_mock.put("id", 666);
-
-        accountList.add(account_mock);
-
         // need to prepare a looper in the GCM thread so that the AsyncHttpClient works
         Looper.prepare();
 
