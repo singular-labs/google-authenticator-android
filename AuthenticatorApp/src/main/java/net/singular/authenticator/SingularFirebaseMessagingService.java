@@ -16,18 +16,14 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import net.singular.authenticator.testability.DependencyInjector;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import net.singular.authenticator.SingularFCMProxyProtocol;
 
 public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 

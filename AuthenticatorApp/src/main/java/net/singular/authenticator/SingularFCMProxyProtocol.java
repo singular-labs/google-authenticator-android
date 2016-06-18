@@ -1,5 +1,6 @@
 package net.singular.authenticator;
 
+import android.app.Activity;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -19,7 +20,7 @@ import okhttp3.Response;
 import okhttp3.Callback;
 
 public class SingularFCMProxyProtocol {
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client;
     private static final String FCMProxyEndpoint = "https://twofactor.singular.net/two_factor_router";
 
     private String mLocalRegistrationID;
@@ -32,6 +33,7 @@ public class SingularFCMProxyProtocol {
 
     SingularFCMProxyProtocol(String localRegistrationID, String remoteRegistrationID)
     {
+        this.client = new OkHttpClient();
         this.mLocalRegistrationID = localRegistrationID;
         this.mRemoteRegistrationID = remoteRegistrationID;
     }
