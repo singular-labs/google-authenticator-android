@@ -71,7 +71,7 @@ public class SingularFCMProxyProtocol {
             JSONObject params = new JSONObject();
 
             params.put("command", "code");
-            params.put("code", value);
+            params.put("value", value);
             params.put("id", id);
 
             this.postJSON(params);
@@ -109,7 +109,6 @@ public class SingularFCMProxyProtocol {
                 .url(FCMProxyEndpoint)
                 .post(body)
                 .build();
-
         Callback callback = new Callback() {
 
             @Override public void onFailure(Call call, IOException e) {
@@ -118,6 +117,7 @@ public class SingularFCMProxyProtocol {
 
             @Override public void onResponse(Call call, Response response) {
                 Log.d(TAG, response.toString());
+                response.close();
             }
         };
 
