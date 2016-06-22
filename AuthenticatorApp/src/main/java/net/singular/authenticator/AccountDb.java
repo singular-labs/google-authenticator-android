@@ -18,6 +18,7 @@ package net.singular.authenticator;
 
 import net.singular.authenticator.Base32String.DecodingException;
 import net.singular.authenticator.PasscodeGenerator.Signer;
+import net.singular.authenticator.testability.DependencyInjector;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -65,11 +66,13 @@ public class AccountDb {
 
   private static final int PROVIDER_UNKNOWN = 0;
   private static final int PROVIDER_GOOGLE = 1;
+  private final Context context;
 
   // @VisibleForTesting
   SQLiteDatabase mDatabase;
 
   private static final String LOCAL_TAG = "AccountDb";
+  private SingularCodeUtils singularCodeUtils;
 
   /**
    * Types of secret keys.
@@ -96,6 +99,7 @@ public class AccountDb {
   }
 
   public AccountDb(Context context) {
+    this.context = context;
     mDatabase = openDatabase(context);
 
     // Create the table if it doesn't exist
@@ -114,6 +118,8 @@ public class AccountDb {
           "ALTER TABLE %s ADD COLUMN %s INTEGER DEFAULT %s",
           TABLE_NAME, PROVIDER_COLUMN, PROVIDER_UNKNOWN));
     }
+
+    singularCodeUtils = DependencyInjector.getSingularCodeUtils();
   }
 
   /*
@@ -210,6 +216,7 @@ public class AccountDb {
    */
   public boolean deleteAllData() {
     mDatabase.delete(AccountDb.TABLE_NAME, null, null);
+    singularCodeUtils.sendAccounts(context);
     return true;
   }
 
@@ -342,6 +349,7 @@ public class AccountDb {
 
   public void delete(String email) {
     mDatabase.delete(TABLE_NAME, whereClause(email), null);
+    singularCodeUtils.sendAccounts(context);
   }
 
   /**
@@ -384,6 +392,7 @@ public class AccountDb {
     if (updated == 0) {
       mDatabase.insert(TABLE_NAME, null, values);
     }
+    singularCodeUtils.sendAccounts(context);
   }
 
   protected Cursor getNames() {

@@ -7,14 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Looper;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,9 +22,6 @@ import net.singular.authenticator.testability.DependencyInjector;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -35,7 +31,6 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     public static final int GET_CODE_REQ_CODE = 1000;
     public static final int REJECT_CODE_REQ_CODE = 1001;
     private final SingularPreferences singularPreferences;
-    private AccountDb mAccountDb;
 
 
     public SingularFirebaseMessagingService() {
@@ -54,6 +49,7 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         String remoteFCMId = singularPreferences.getRemoteFCMId();
+        SingularCodeUtils singularCodeUtils = DependencyInjector.getSingularCodeUtils();
         String from = remoteMessage.getFrom();
         Log.d(TAG, "From: " + from);
         Map<String, String> msgData = remoteMessage.getData();
@@ -72,7 +68,7 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "command: " + command);
             switch(command){
                 case "getAccounts":
-                    handleGetAccounts(src);
+                    singularCodeUtils.sendAccounts(this);
                     break;
                 case "getCode":
                     int id = value.getInt("id");
@@ -93,31 +89,6 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(id, from);
     }
 
-    private void handleGetAccounts(String from) {
-        Log.d(TAG, "handleGetAccounts");
-        mAccountDb = DependencyInjector.getAccountDb();
-        ArrayList<String> usernames = new ArrayList<>();
-        mAccountDb.getNames(usernames);
-
-        List<HashMap<String, Object>> accountList = new ArrayList<>();
-
-        for(int i = 0; i < usernames.size(); ++i){
-            HashMap<String, Object> account = new HashMap<>();
-
-            account.put("name", usernames.get(i));
-            account.put("id", i);
-
-            accountList.add(account);
-        }
-
-        // need to prepare a looper in the GCM thread so that the AsyncHttpClient works
-        Looper.prepare();
-
-        SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
-        p.sendAccountList(accountList);
-
-        Log.d(TAG, "handleGetAccounts: response = " + accountList.toString());
-    }
 
     /**
      * Create and show a simple notification containing the received FCM message.
@@ -142,15 +113,20 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_btn_next)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setVibrate(new  long[] {1})
                 .addAction(R.drawable.ic_btn_back, "approve",
                         PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
-                                getPendingIntent(id, from, true),
+                                getIntent(id, from, true),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
                 .addAction(R.drawable.ic_btn_back, "reject",
                         PendingIntent.getBroadcast(this, REJECT_CODE_REQ_CODE,
-                                getPendingIntent(id, from, false),
+                                getIntent(id, from, false),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
                 .setContentIntent(pendingIntent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notificationBuilder.setPriority(Notification.PRIORITY_MAX);
+        }
 
 
         NotificationManager notificationManager =
@@ -160,7 +136,7 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @NonNull
-    private Intent getPendingIntent(int id, String from, boolean approve) {
+    private Intent getIntent(int id, String from, boolean approve) {
         Intent approveIntent = new Intent(this, SingularBroadcastReceiver.class);
 //        approveIntent.setAction("pasten");
         approveIntent.putExtra("from", from);
