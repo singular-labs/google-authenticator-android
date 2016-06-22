@@ -843,6 +843,10 @@ public class AuthenticatorActivity extends TestableActivity {
       mRemotePSK = json.getString("PSK");
       mRemoteRegistrationID = json.getString("registrationId");
 
+      SingularPreferences singularPreferences = new SingularPreferences(this);
+      singularPreferences.setPSK(mRemotePSK);
+      singularPreferences.setRemoteFCMId(mRemoteRegistrationID);
+
       mLocalRegistrationID = FirebaseInstanceId.getInstance().getToken();
 
       SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(mLocalRegistrationID, mRemoteRegistrationID);

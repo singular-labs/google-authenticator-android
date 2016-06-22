@@ -34,8 +34,13 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "SingularFMS";
     public static final int GET_CODE_REQ_CODE = 1000;
     public static final int REJECT_CODE_REQ_CODE = 1001;
+    private final SingularPreferences singularPreferences;
     private AccountDb mAccountDb;
 
+
+    public SingularFirebaseMessagingService() {
+        singularPreferences = new SingularPreferences(this);
+    }
 
     /**
      * Called when message is received.
@@ -48,13 +53,21 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Map<String, String> msg_data = remoteMessage.getData();
-        String src = msg_data.get("src");
+        String remoteFCMId = singularPreferences.getRemoteFCMId();
+        String from = remoteMessage.getFrom();
+        Log.d(TAG, "From: " + from);
+        Map<String, String> msgData = remoteMessage.getData();
+        String src = msgData.get("src");
+
+        if(!src.equals(remoteFCMId)){
+            Log.e(TAG, String.format("got message from an unknown FCM id = '%s' " +
+                    "while paired with = '%s'", src, remoteFCMId));
+            return;
+        }
 
         // todo: verify that src matches the paired src
         try {
-            JSONObject value = new JSONObject(msg_data.get("value"));
+            JSONObject value = new JSONObject(msgData.get("value"));
             String command = value.getString("command");
             Log.d(TAG, "command: " + command);
             switch(command){
