@@ -98,6 +98,8 @@
       </intent-filter>
     </service>
 
+    <receiver android:name=".SingularBroadcastReceiver"></receiver>
+
   </application>
 
 </manifest>

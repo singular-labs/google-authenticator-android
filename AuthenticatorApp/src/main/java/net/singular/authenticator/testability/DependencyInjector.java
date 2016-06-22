@@ -21,6 +21,7 @@ import net.singular.authenticator.AuthenticatorActivity;
 import net.singular.authenticator.MarketBuildOptionalFeatures;
 import net.singular.authenticator.OptionalFeatures;
 import net.singular.authenticator.OtpSource;
+import net.singular.authenticator.SingularCodeUtils;
 import net.singular.authenticator.TotpClock;
 import net.singular.authenticator.dataimport.ExportServiceBasedImportController;
 import net.singular.authenticator.dataimport.ImportController;
@@ -62,6 +63,7 @@ public final class DependencyInjector {
   private static HttpClient sHttpClient;
   private static ImportController sImportController;
   private static OptionalFeatures sOptionalFeatures;
+  private static SingularCodeUtils sSingularCodeUtils;
 
   private enum Mode {
     PRODUCTION,
@@ -101,6 +103,17 @@ public final class DependencyInjector {
       }
     }
     return sAccountDb;
+  }
+
+  public static SingularCodeUtils getSingularCodeUtils() {
+    if(sSingularCodeUtils == null){
+      sSingularCodeUtils = new SingularCodeUtils();
+    }
+    return sSingularCodeUtils;
+  }
+
+  public static void setSingularCodeUtils(SingularCodeUtils sSingularCodeUtils) {
+    DependencyInjector.sSingularCodeUtils = sSingularCodeUtils;
   }
 
   /**
@@ -279,5 +292,6 @@ public final class DependencyInjector {
     sHttpClient = null;
     sImportController = null;
     sOptionalFeatures = null;
+    sSingularCodeUtils = null;
   }
 }

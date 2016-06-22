@@ -1,5 +1,6 @@
 package net.singular.authenticator;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,7 +8,10 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -28,8 +32,10 @@ import java.util.Map;
 public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "SingularFMS";
+    public static final int GET_CODE_REQ_CODE = 1000;
+    public static final int REJECT_CODE_REQ_CODE = 1001;
     private AccountDb mAccountDb;
-    private OtpSource mOtpProvider;
+
 
     /**
      * Called when message is received.
@@ -68,27 +74,10 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+
     private void handleGetCode(String from, int id) {
         Log.d(TAG, "handleGetCode: " + Integer.toString(id));
-        mOtpProvider = DependencyInjector.getOtpProvider();
-        try {
-            String code = mOtpProvider.getNextCode(getUsername(id));
-
-            SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
-            p.sendCode(id, code);
-
-            Log.d(TAG, "handleGetCode: code = " + code);
-        } catch (OtpSourceException ignored) {
-            ignored.printStackTrace();
-        }
-
-    }
-
-    private String getUsername(int id){
-        mAccountDb = DependencyInjector.getAccountDb();
-        ArrayList<String> usernames = new ArrayList<String>();
-        mAccountDb.getNames(usernames);
-        return usernames.get(id);
+        sendNotification(id, from);
     }
 
     private void handleGetAccounts(String from) {
@@ -120,25 +109,50 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+     * @param id
+     * @param from
      */
-    private void sendNotification(String messageBody) {
+    private void sendNotification(int id, String from) {
         Intent intent = new Intent(this, AuthenticatorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        SingularCodeUtils singularCodeUtils = DependencyInjector.getSingularCodeUtils();
+        String accountName = singularCodeUtils.getUsername(id);
+        Spanned notificationText = Html.fromHtml(String.format("For account <b><i>%s</i></b>.", accountName));
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
+                .setContentTitle("Code Request")
+                .setContentText(notificationText)
+                .setSmallIcon(R.drawable.ic_btn_next)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .addAction(R.drawable.ic_btn_back, "approve",
+                        PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
+                                getPendingIntent(id, from, true),
+                                PendingIntent.FLAG_UPDATE_CURRENT))
+                .addAction(R.drawable.ic_btn_back, "reject",
+                        PendingIntent.getBroadcast(this, REJECT_CODE_REQ_CODE,
+                                getPendingIntent(id, from, false),
+                                PendingIntent.FLAG_UPDATE_CURRENT))
                 .setContentIntent(pendingIntent);
+
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    @NonNull
+    private Intent getPendingIntent(int id, String from, boolean approve) {
+        Intent approveIntent = new Intent(this, SingularBroadcastReceiver.class);
+//        approveIntent.setAction("pasten");
+        approveIntent.putExtra("from", from);
+        approveIntent.putExtra("accountId", id);
+        approveIntent.putExtra("approve", approve);
+        return approveIntent;
     }
 }
