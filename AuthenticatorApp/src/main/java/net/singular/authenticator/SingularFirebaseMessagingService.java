@@ -106,6 +106,10 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         String accountName = singularCodeUtils.getUsername(id);
         Spanned notificationText = Html.fromHtml(String.format("For account <b><i>%s</i></b>.", accountName));
 
+
+        NotificationCompat.Action approveAction = getAction(id, from, "Approve", R.drawable.ic_btn_back, true);
+        NotificationCompat.Action rejectAction = getAction(id, from, "Reject", R.drawable.ic_btn_back, false);
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle("Code Request")
@@ -114,15 +118,13 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setVibrate(new  long[] {1})
-                .addAction(R.drawable.ic_btn_back, "approve",
-                        PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
-                                getIntent(id, from, true),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-                .addAction(R.drawable.ic_btn_back, "reject",
-                        PendingIntent.getBroadcast(this, REJECT_CODE_REQ_CODE,
-                                getIntent(id, from, false),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
+                .addAction(approveAction)
+                .addAction(rejectAction)
                 .setContentIntent(pendingIntent);
+
+        notificationBuilder.extend(new NotificationCompat.WearableExtender().
+                addAction(approveAction).
+                addAction(rejectAction));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             notificationBuilder.setPriority(Notification.PRIORITY_MAX);
@@ -136,9 +138,22 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @NonNull
+    private NotificationCompat.Action getAction(int id, String from, String title, int icon, boolean approve) {
+        return new NotificationCompat.Action.Builder(
+                    icon, title,
+                    PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
+                            getIntent(id, from, approve),
+                            PendingIntent.FLAG_UPDATE_CURRENT)).build();
+    }
+
+    @NonNull
     private Intent getIntent(int id, String from, boolean approve) {
         Intent approveIntent = new Intent(this, SingularBroadcastReceiver.class);
-//        approveIntent.setAction("pasten");
+        if(approve){
+            approveIntent.setAction("approve");
+        }else{
+            approveIntent.setAction("reject");
+        }
         approveIntent.putExtra("from", from);
         approveIntent.putExtra("accountId", id);
         approveIntent.putExtra("approve", approve);
