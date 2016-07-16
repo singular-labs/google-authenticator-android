@@ -48,6 +48,7 @@ public class SingularCodeUtils {
     private static final String TAG = "SingularCodeUtils";
     public static final int PBKDF_ITER_COUNT = 1000;
     public static final int KEY_BIT_LEN = 128;
+    public static final int PROTOCOL_VERSION = 1;
 
     public String getUsername(int id){
         AccountDb mAccountDb = DependencyInjector.getAccountDb();

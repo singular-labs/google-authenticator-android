@@ -107,7 +107,7 @@ public class SingularFCMProxyProtocol {
         proxy_packet.put("from", this.mLocalRegistrationID);
         String message = SingularCodeUtils.encrypt(this.psk, params.toString());
         proxy_packet.put("message", message);
-        proxy_packet.put("version", 1);
+        proxy_packet.put("version", SingularCodeUtils.PROTOCOL_VERSION);
 
         RequestBody body = RequestBody.create(JSON, proxy_packet.toString());
         Request request = new Request.Builder()

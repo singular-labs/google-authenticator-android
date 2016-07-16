@@ -36,6 +36,22 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         singularPreferences = new SingularPreferences(this);
     }
 
+    private void requestUpdate(){
+        Intent intent = new Intent(this, AuthenticatorActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle("Push Authenticator")
+                .setContentText("Your version is outdated, please update to continue using it")
+                .setSmallIcon(R.drawable.ic_btn_next);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
     /**
      * Called when message is received.
      *
@@ -53,6 +69,15 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + from);
         Map<String, String> msgData = remoteMessage.getData();
         String src = msgData.get("src");
+        int version = Integer.parseInt(msgData.get("version"));
+        if(version > SingularCodeUtils.PROTOCOL_VERSION){
+            Log.e(TAG, String.format("got message with protocol version > supported version, " +
+                    "got version = %d, we support version = %d",
+                    version,
+                    SingularCodeUtils.PROTOCOL_VERSION));
+            requestUpdate();
+            return;
+        }
 
         if(!src.equals(remoteFCMId)){
             Log.e(TAG, String.format("got message from an unknown FCM id = '%s' " +
