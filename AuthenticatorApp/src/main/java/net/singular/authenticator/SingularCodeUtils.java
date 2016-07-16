@@ -8,6 +8,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import net.singular.authenticator.testability.DependencyInjector;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.spongycastle.crypto.PBEParametersGenerator;
 import org.spongycastle.crypto.digests.SHA256Digest;
@@ -81,14 +82,23 @@ public class SingularCodeUtils {
         }
 
         SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(
-                from, remoteFCMId, singularPreferences.getPSK());
+                remoteFCMId, singularPreferences.getPSK());
         p.sendAccountList(accountList);
 
         Log.d(TAG, "sendAccounts: response = " + accountList.toString());
     }
 
-    public String getMyFCMId(){
-        return FirebaseInstanceId.getInstance().getToken();
+    public static String getMyFCMId(){
+        JSONObject registrationId = new JSONObject();
+        String gcmRegistrationToken = FirebaseInstanceId.getInstance().getToken();
+
+        try {
+            registrationId.put("protocol", "gcm");
+            registrationId.put("address", gcmRegistrationToken);
+            return registrationId.toString();
+        } catch (JSONException e) {
+            throw new RuntimeException("should never happen");
+        }
     }
 
     private static byte[] innerDecrypt(SecretKey key, byte[] encrypted, byte[] iv) throws Exception{

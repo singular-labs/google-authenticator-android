@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import net.singular.authenticator.testability.DependencyInjector;
 
 public class SingularBroadcastReceiver extends BroadcastReceiver {
@@ -19,7 +17,6 @@ public class SingularBroadcastReceiver extends BroadcastReceiver {
         String from = intent.getStringExtra("from");
         SingularPreferences singularPreferences = new SingularPreferences(context);
         SingularFCMProxyProtocol singularFCMProxyProtocol = new SingularFCMProxyProtocol(
-                FirebaseInstanceId.getInstance().getToken(),
                 from,
                 singularPreferences.getPSK());
         if(approve){

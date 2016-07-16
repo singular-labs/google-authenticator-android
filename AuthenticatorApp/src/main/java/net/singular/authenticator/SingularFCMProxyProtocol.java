@@ -32,10 +32,10 @@ public class SingularFCMProxyProtocol {
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    SingularFCMProxyProtocol(String localRegistrationID, String remoteRegistrationID, String psk)
+    SingularFCMProxyProtocol(String remoteRegistrationID, String psk)
     {
         this.client = new OkHttpClient();
-        this.mLocalRegistrationID = localRegistrationID;
+        this.mLocalRegistrationID = SingularCodeUtils.getMyFCMId();
         this.mRemoteRegistrationID = remoteRegistrationID;
         this.psk = psk;
     }

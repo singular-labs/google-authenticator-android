@@ -59,17 +59,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Hashtable;
-
-import net.singular.authenticator.SingularFCMProxyProtocol;
 
 /**
  * The main activity that displays usernames and codes
@@ -849,10 +843,10 @@ public class AuthenticatorActivity extends TestableActivity {
       singularPreferences.setPSK(mRemotePSK);
       singularPreferences.setRemoteFCMId(mRemoteRegistrationID);
 
-      mLocalRegistrationID = FirebaseInstanceId.getInstance().getToken();
+      mLocalRegistrationID = SingularCodeUtils.getMyFCMId();
 
       SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(
-              mLocalRegistrationID, mRemoteRegistrationID, mRemotePSK);
+              mRemoteRegistrationID, mRemotePSK);
       proxy.sendHello();
     }
     catch (JSONException e)
