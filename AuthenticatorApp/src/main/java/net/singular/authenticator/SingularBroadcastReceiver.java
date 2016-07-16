@@ -17,32 +17,36 @@ public class SingularBroadcastReceiver extends BroadcastReceiver {
         int accountId = intent.getIntExtra("accountId", -1);
         boolean approve = intent.getBooleanExtra("approve", false);
         String from = intent.getStringExtra("from");
-
+        SingularPreferences singularPreferences = new SingularPreferences(context);
+        SingularFCMProxyProtocol singularFCMProxyProtocol = new SingularFCMProxyProtocol(
+                FirebaseInstanceId.getInstance().getToken(),
+                from,
+                singularPreferences.getPSK());
         if(approve){
-            sendCode(accountId, from);
+            sendCode(singularFCMProxyProtocol, accountId);
         }else{
-            sendReject(accountId, from);
+            sendReject(singularFCMProxyProtocol, accountId);
         }
+
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
     }
 
-    private void sendReject(int accountId, String from) {
-        SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
-        p.reject(accountId);
+    private void sendReject(SingularFCMProxyProtocol singularFCMProxyProtocol, int accountId) {
+        singularFCMProxyProtocol.reject(accountId);
         Log.d(TAG, "reject: accountId = " + accountId);
     }
 
-    private void sendCode(int accountId, String from){
+    private void sendCode(SingularFCMProxyProtocol singularFCMProxyProtocol, int accountId){
         SingularCodeUtils singularCodeUtils = DependencyInjector.getSingularCodeUtils();
         String username = singularCodeUtils.getUsername(accountId);
         try {
             OtpSource mOtpProvider = DependencyInjector.getOtpProvider();
             String code = mOtpProvider.getNextCode(username);
-            SingularFCMProxyProtocol p = new SingularFCMProxyProtocol(FirebaseInstanceId.getInstance().getToken(), from);
-            p.sendCode(accountId, code);
+
+            singularFCMProxyProtocol.sendCode(accountId, code);
             Log.d(TAG, "sendCode: code = " + code);
         } catch (OtpSourceException ignored) {
             ignored.printStackTrace();

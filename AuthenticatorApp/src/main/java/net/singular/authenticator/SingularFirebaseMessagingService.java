@@ -24,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-
 public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "SingularFMS";
@@ -63,7 +62,10 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
         // todo: verify that src matches the paired src
         try {
-            JSONObject value = new JSONObject(msgData.get("value"));
+            String encryptedValue = msgData.get("value");
+            String decryptedValue = SingularCodeUtils.decrypt(
+                    singularPreferences.getPSK(), encryptedValue);
+            JSONObject value = new JSONObject(decryptedValue);
             String command = value.getString("command");
             Log.d(TAG, "command: " + command);
             switch(command){
@@ -77,8 +79,8 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
                 default:
                     Log.e(TAG, "unknown command: " + command);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "onMessageReceived failed", e);
             return;
         }
     }

@@ -20,6 +20,7 @@ import okhttp3.Response;
 import okhttp3.Callback;
 
 public class SingularFCMProxyProtocol {
+    private final String psk;
     private OkHttpClient client;
     private static final String FCMProxyEndpoint = "https://twofactor.singular.net/two_factor_router";
 
@@ -31,11 +32,12 @@ public class SingularFCMProxyProtocol {
             = MediaType.parse("application/json; charset=utf-8");
 
 
-    SingularFCMProxyProtocol(String localRegistrationID, String remoteRegistrationID)
+    SingularFCMProxyProtocol(String localRegistrationID, String remoteRegistrationID, String psk)
     {
         this.client = new OkHttpClient();
         this.mLocalRegistrationID = localRegistrationID;
         this.mRemoteRegistrationID = remoteRegistrationID;
+        this.psk = psk;
     }
 
     public void sendHello()
@@ -46,9 +48,9 @@ public class SingularFCMProxyProtocol {
             params.put("command", "Hello");
 
             this.postJSON(params);
-        } catch (JSONException e)
+        } catch (Exception e)
         {
-            Log.e(TAG, "JSONException");
+            Log.e(TAG, "sendHello failed", e);
         }
     }
 
@@ -61,9 +63,9 @@ public class SingularFCMProxyProtocol {
             params.put("accounts", new JSONArray(accountList));
 
             this.postJSON(params);
-        } catch (JSONException e)
+        } catch (Exception e)
         {
-            Log.e(TAG, "JSONException");
+            Log.e(TAG, "sendAccountsList failed", e);
         }
     }
 
@@ -77,9 +79,9 @@ public class SingularFCMProxyProtocol {
             params.put("id", id);
 
             this.postJSON(params);
-        } catch (JSONException e)
+        } catch (Exception e)
         {
-            Log.e(TAG, "JSONException");
+            Log.e(TAG, "sendCode failed", e);
         }
     }
 
@@ -92,19 +94,19 @@ public class SingularFCMProxyProtocol {
             params.put("id", id);
 
             this.postJSON(params);
-        } catch (JSONException e)
+        } catch (Exception e)
         {
-            Log.e(TAG, "JSONException");
+            Log.e(TAG, "reject exception", e);
         }
     }
 
-    public void postJSON(JSONObject params) throws JSONException {
+    public void postJSON(JSONObject params) throws JSONException, CryptoException {
         JSONObject proxy_packet = new JSONObject();
 
         proxy_packet.put("to", this.mRemoteRegistrationID);
         proxy_packet.put("from", this.mLocalRegistrationID);
-        proxy_packet.put("message", params.toString());
-
+        String message = SingularCodeUtils.encrypt(this.psk, params.toString());
+        proxy_packet.put("message", message);
 
         RequestBody body = RequestBody.create(JSON, proxy_packet.toString());
         Request request = new Request.Builder()

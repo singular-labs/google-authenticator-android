@@ -843,13 +843,16 @@ public class AuthenticatorActivity extends TestableActivity {
       mRemotePSK = json.getString("PSK");
       mRemoteRegistrationID = json.getString("registrationId");
 
+      Log.d(LOCAL_TAG, "got PSK: " + mRemotePSK);
+
       SingularPreferences singularPreferences = new SingularPreferences(this);
       singularPreferences.setPSK(mRemotePSK);
       singularPreferences.setRemoteFCMId(mRemoteRegistrationID);
 
       mLocalRegistrationID = FirebaseInstanceId.getInstance().getToken();
 
-      SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(mLocalRegistrationID, mRemoteRegistrationID);
+      SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(
+              mLocalRegistrationID, mRemoteRegistrationID, mRemotePSK);
       proxy.sendHello();
     }
     catch (JSONException e)
