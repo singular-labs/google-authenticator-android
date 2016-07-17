@@ -16,6 +16,8 @@
 
 package net.singular.authenticator;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import net.singular.authenticator.testability.DependencyInjector;
 
 import android.app.Application;
@@ -36,6 +38,7 @@ public class AuthenticatorApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
 
     // Try to restrict data dir file permissions to owner (this app's UID) only. This mitigates the
     // security vulnerability where SQLite database transaction journals are world-readable.

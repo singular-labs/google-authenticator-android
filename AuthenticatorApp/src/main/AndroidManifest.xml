@@ -99,6 +99,9 @@ dd
 
     <receiver android:name=".SingularBroadcastReceiver"></receiver>
 
-  </application>
+      <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3e550aac9514176dcf4e3bb1d89b4bcce5fcb637" />
+    </application>
 
 </manifest>
