@@ -32,6 +32,9 @@ dd
                android:name="net.singular.authenticator.AuthenticatorApplication"
                android:allowBackup="false">
 
+    <meta-data android:name="net.singular.api_key" android:value="b22bc6e124f88feebee723f965a07599" />
+    <meta-data android:name="net.singular.app_id" android:value="net.singular.authenticator" />
+
     <activity android:name="net.singular.authenticator.AuthenticatorActivity"
               android:label="@string/app_name_short"
               android:launchMode="singleTask">
@@ -98,6 +101,14 @@ dd
     </service>
 
     <receiver android:name=".SingularBroadcastReceiver"></receiver>
+    <receiver
+        android:name="net.singular.sdk.InstallReceiver"
+        android:exported="true" >
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER" />
+      </intent-filter>
+    </receiver>
+
 
       <meta-data
             android:name="io.fabric.ApiKey"

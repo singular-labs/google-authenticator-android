@@ -21,6 +21,7 @@ import net.singular.authenticator.howitworks.IntroEnterPasswordActivity;
 import net.singular.authenticator.testability.DependencyInjector;
 import net.singular.authenticator.testability.TestableActivity;
 import net.singular.authenticator.R;
+import net.singular.sdk.Singular;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -207,6 +208,7 @@ public class AuthenticatorActivity extends TestableActivity {
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    Singular.initialize(this);
     super.onCreate(savedInstanceState);
 
     mAccountDb = DependencyInjector.getAccountDb();
@@ -354,10 +356,17 @@ public class AuthenticatorActivity extends TestableActivity {
 
   @Override
   protected void onResume() {
+    Singular.onResume();
     super.onResume();
     Log.i(getString(R.string.app_name), LOCAL_TAG + ": onResume");
 
     importDataFromOldAppIfNecessary();
+  }
+
+  @Override
+  protected void onPause() {
+    Singular.onPause();
+    super.onPause();
   }
 
   @Override
