@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Trình xác thực"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Nhập tài khoản thủ công"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Thêm"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"Dựa theo bộ đếm"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Đã nhập thành công"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Dữ liệu của bạn đã được nhập thành công từ ứng dụng Google Authenticator không được chấp nhận. Giờ bạn có thể yên tâm gỡ phiên bản cũ của ứng dụng bằng cách nhấp vào bên dưới."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Dữ liệu của bạn đã được nhập thành công từ ứng dụng Push Authenticator không được chấp nhận. Giờ bạn có thể yên tâm gỡ phiên bản cũ của ứng dụng bằng cách nhấp vào bên dưới."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Gỡ cài đặt"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Để đăng nhập, bạn cần nhập mật khẩu của bạn."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Tuy nhiên, nếu bạn đang sử dụng máy tính hoặc thiết bị mới, Google sẽ yêu cầu bạn nhập một mã đặc biệt để đảm bảo rằng đó thực sự là bạn."</string>

@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"手動輸入帳戶"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"新增"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"根據計數器"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"匯入成功"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"您的資料已成功從已淘汰的 Google Authenticator 應用程式匯出，現在按一下底下的選項即可解除安裝舊版應用程式。"</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"您的資料已成功從已淘汰的 Push Authenticator 應用程式匯出，現在按一下底下的選項即可解除安裝舊版應用程式。"</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"解除安裝"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"如果要登入，請輸入您的密碼。"</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"不過，如果您使用的是新電腦或新裝置，Google 會要求您輸入特殊的驗證碼，確認登入者是您本人。"</string>

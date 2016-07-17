@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Entrada de compte manual"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Afegeix"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"Basada en comptador"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Importació correcta"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"S\'han importat correctament les vostres dades de l\'aplicació obsoleta de Google Authenticator. Ara podeu desinstal·lar la versió anterior de l\'aplicació si feu clic a continuació."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"S\'han importat correctament les vostres dades de l\'aplicació obsoleta de Push Authenticator. Ara podeu desinstal·lar la versió anterior de l\'aplicació si feu clic a continuació."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Desinstal·la"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Per iniciar la sessió, introduireu la vostra contrasenya."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Ara bé, si sou en un equip o dispositiu diferent, Google us demanarà un codi especial per verificar la vostra identitat."</string>

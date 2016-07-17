@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"De acordo com contagem"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Importação concluída"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Seus dados foram importados do aplicativo obsoleto Google Authenticator. Agora você pode clicar abaixo para desinstalar a versão anterior do aplicativo com segurança."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Seus dados foram importados do aplicativo obsoleto Push Authenticator. Agora você pode clicar abaixo para desinstalar a versão anterior do aplicativo com segurança."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Desinstalar"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Para fazer login, você digitará sua senha."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"No entanto, se você estiver em um computador ou dispositivo novo, o Google pedirá um código especial para confirmar que realmente é você."</string>

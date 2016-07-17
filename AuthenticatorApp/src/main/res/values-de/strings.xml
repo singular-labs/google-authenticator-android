@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Manuelle Kontoeingabe"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Hinzu"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"Zählerbasiert"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Import abgeschlossen"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Ihre Daten wurden aus der veralteten Google Authenticator-App importiert. Sie können jetzt durch Klicken auf die Schaltfläche unten die Vorgängerversion der App deinstallieren."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Ihre Daten wurden aus der veralteten Push Authenticator-App importiert. Sie können jetzt durch Klicken auf die Schaltfläche unten die Vorgängerversion der App deinstallieren."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Deinstallieren"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Geben Sie zur Anmeldung Ihr Passwort ein."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Wenn Sie allerdings einen neuen Computer oder ein neues Gerät verwenden, fordert Google Sie zur Eingabe eines speziellen Codes auf, damit Sie identifiziert werden können."</string>

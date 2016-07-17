@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Magtiger"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Handmatige rekening-inskrywing"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Voeg by"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"Tellergebaseer"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Invoer suksesvol"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Jou data is suksesvol ingevoer uit die verouderde Google Authenticator-program. Dit is nou veilig om die vorige weergawe van die program te deïnstalleer deur hier onder te klik."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Jou data is suksesvol ingevoer uit die verouderde Push Authenticator-program. Dit is nou veilig om die vorige weergawe van die program te deïnstalleer deur hier onder te klik."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Deïnstalleer"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Om aan te meld, moet jy jou wagwoord invoer."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"As jy egter by \'n nuwe rekenaar of toestel is, sal Google jou vra vir \'n spesiale kode om seker te maak dat dit regtig jy is."</string>

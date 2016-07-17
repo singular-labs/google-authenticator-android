@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"Push Authenticator"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Manual na entry ng account"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Idagdag"</string>
@@ -75,7 +75,7 @@
     <item msgid="5212912099902129712">"Batay sa tagabilang"</item>
   </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Nagtagumpay ang pag-import"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Matagumpay na na-import ang iyong data mula sa hindi na ginagamit na Google Authenticator app. Ligtas na ngayong i-uninstall ang naunang bersyon ng app sa pamamagitan ng pag-click sa ibaba."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Matagumpay na na-import ang iyong data mula sa hindi na ginagamit na Push Authenticator app. Ligtas na ngayong i-uninstall ang naunang bersyon ng app sa pamamagitan ng pag-click sa ibaba."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"I-uninstall"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Upang mag-sign in, ilalagay mo ang iyong password."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Gayunpaman, kung nasa isa kang bagong computer o device, hihingi sa iyo ng espesyal na code ang Google upang matiyak na ikaw talaga iyon."</string>

@@ -18,10 +18,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
   <!-- The package of the application flavor, for use within preferences, etc. -->
-  <string name="app_package_name" translatable="false">com.google.android.apps.authenticator2</string>
+  <string name="app_package_name" translatable="false">net.singular.authenticator</string>
 
   <!-- Name of the application -->
-  <string name="app_name">Google Authenticator</string>
+  <string name="app_name">Push Authenticator</string>
 
   <!-- Shortened version of the application name, without Google branding -->
   <string name="app_name_short">Authenticator</string>
@@ -266,7 +266,7 @@
        deprecated/old app can be uninstalled.
        The dialog offers two buttons: Uninstall (button_uninstall_old_app) and Cancel. -->
   <string name="dataimport_import_succeeded_uninstall_dialog_prompt">
-    Your data has been successfully imported from the deprecated Google Authenticator app.
+    Your data has been successfully imported from the deprecated Push Authenticator app.
     It is now safe to uninstall the prior version of the app by clicking below.
   </string>
 
