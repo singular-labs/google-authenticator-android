@@ -22,7 +22,7 @@
     android:persistent="false">
     <intent
       android:targetPackage="@string/app_package_name"
-      android:targetClass="com.google.authenticator.timesync.SyncNowActivity">
+      android:targetClass="net.singular.authenticator.timesync.SyncNowActivity">
     </intent>
   </PreferenceScreen>
   <EditTextPreference
@@ -36,7 +36,7 @@
     android:persistent="false">
     <intent
       android:targetPackage="@string/app_package_name"
-      android:targetClass="com.google.authenticator.timesync.AboutActivity">
+      android:targetClass="net.singular.authenticator.timesync.AboutActivity">
     </intent>
   </PreferenceScreen>
 </PreferenceScreen>
