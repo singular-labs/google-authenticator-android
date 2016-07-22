@@ -43,6 +43,7 @@ public class CountdownIndicator extends View {
    * {@code 0} the closer the countdown is to zero.
    */
   private double mPhase;
+  private int mCountdownIndicatorNormalColor;
 
   public CountdownIndicator(Context context) {
     this(context, null);
@@ -62,18 +63,19 @@ public class CountdownIndicator extends View {
 
         switch (attr) {
         case R.styleable.CountdownIndicator_color:
-          color = appearance.getColor(attr, DEFAULT_COLOR);
+          mCountdownIndicatorNormalColor = appearance.getColor(attr, DEFAULT_COLOR);
           break;
         }
       }
     }
 
+
     mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     mBorderPaint.setStrokeWidth(0); // hairline
     mBorderPaint.setStyle(Style.STROKE);
-    mBorderPaint.setColor(color);
+    mBorderPaint.setColor(mCountdownIndicatorNormalColor);
     mRemainingSectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    mRemainingSectorPaint.setColor(mBorderPaint.getColor());
+    mRemainingSectorPaint.setColor(mCountdownIndicatorNormalColor);
   }
 
   @Override
@@ -86,6 +88,12 @@ public class CountdownIndicator extends View {
     // in anti-aliased mode drawArc and drawOval use these areas for some reason.
     RectF drawingRect = new RectF(1, 1, getWidth() - 1, getHeight() - 1);
     if (remainingSectorStartAngle < 360) {
+      mRemainingSectorPaint.setColor(mCountdownIndicatorNormalColor);
+
+      if (remainingSectorSweepAngle < 90)
+        mRemainingSectorPaint.setColor(0xffff0000);
+
+
       canvas.drawArc(
           drawingRect,
           remainingSectorStartAngle,
@@ -98,7 +106,7 @@ public class CountdownIndicator extends View {
     }
 
     // Draw the outer border
-    canvas.drawOval(drawingRect, mBorderPaint);
+    //canvas.drawOval(drawingRect, mBorderPaint);
   }
 
   /**
