@@ -134,14 +134,14 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
         Spanned notificationText = Html.fromHtml(String.format("For account <b><i>%s</i></b>.", accountName));
 
 
-        NotificationCompat.Action approveAction = getAction(id, from, "Approve", R.drawable.ic_btn_back, true);
-        NotificationCompat.Action rejectAction = getAction(id, from, "Reject", R.drawable.ic_btn_back, false);
+        NotificationCompat.Action approveAction = getAction(id, from, "Approve", R.drawable.ic_thumb_up_black_24dp, true);
+        NotificationCompat.Action rejectAction = getAction(id, from, "Reject", R.drawable.ic_thumb_down_black_24dp, false);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle("Code Request")
                 .setContentText(notificationText)
-                .setSmallIcon(R.drawable.ic_btn_next)
+                .setSmallIcon(R.drawable.ic_launcher_authenticator_singular)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setVibrate(new  long[] {1})
