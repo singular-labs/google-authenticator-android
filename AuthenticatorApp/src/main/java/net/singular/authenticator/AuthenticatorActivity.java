@@ -256,6 +256,12 @@ public class AuthenticatorActivity extends TestableActivity {
         displayHowItWorksInstructions();
       }
     });
+    findViewById(R.id.pair_button).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        pairWithSingular2FA();
+      }
+    });
     findViewById(R.id.add_account_button).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
