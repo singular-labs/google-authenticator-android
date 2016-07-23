@@ -43,6 +43,8 @@
   <!-- Label for menu option: add a new OTP account -->
   <string name="add_account_menu_item">Add account</string>
 
+  <string name="pair_with_extension_menu_item">Pair with Chrome Extension</string>
+
   <!-- Label for menu option: display an set of help pages explaining how 2-step verification
        works. -->
   <string name="how_it_works_menu_item">How it works</string>
