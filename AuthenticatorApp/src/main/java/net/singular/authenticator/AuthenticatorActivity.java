@@ -250,12 +250,6 @@ public class AuthenticatorActivity extends TestableActivity {
     noAccountsPromptDetails.setText(
         Html.fromHtml(getString(R.string.welcome_page_details)));
 
-    findViewById(R.id.how_it_works_button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        displayHowItWorksInstructions();
-      }
-    });
     findViewById(R.id.pair_button).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -811,9 +805,6 @@ public class AuthenticatorActivity extends TestableActivity {
         return true;
       case R.id.add_account:
         addAccount();
-        return true;
-      case R.id.how_it_works:
-        displayHowItWorksInstructions();
         return true;
       case R.id.settings:
         showSettings();

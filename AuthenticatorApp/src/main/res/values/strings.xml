@@ -325,7 +325,7 @@
 
   <!-- Subheading in the main screen of the app when there are no accounts configured (yet).  -->
   <string name="welcome_page_details">
-    2-step verification protects your Google account even if your password is stolen.
+    2-step verification protects your account even if your password is stolen.
   </string>
 
 </resources>
