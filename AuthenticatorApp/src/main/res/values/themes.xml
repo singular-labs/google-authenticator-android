@@ -62,6 +62,6 @@
   </style>
 
   <style name="SingularTextColor">
-    <item name="android:textColor">#116fa2</item>
+    <item name="android:textColor">#CCDFE9</item>
   </style>
 </resources>
