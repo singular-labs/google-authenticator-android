@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.util.Log;
 
 import net.singular.authenticator.testability.DependencyInjector;
+import net.singular.sdk.Singular;
 
 public class SingularBroadcastReceiver extends BroadcastReceiver {
     private final String TAG = "SBR";
     @Override
     public void onReceive(Context context, Intent intent) {
+        Singular.initialize(context);
         int accountId = intent.getIntExtra("accountId", -1);
         boolean approve = intent.getBooleanExtra("approve", false);
         String from = intent.getStringExtra("from");
@@ -21,8 +23,10 @@ public class SingularBroadcastReceiver extends BroadcastReceiver {
                 singularPreferences.getPSK());
         if(approve){
             sendCode(singularFCMProxyProtocol, accountId);
+            Singular.trackEvent("approve");
         }else{
             sendReject(singularFCMProxyProtocol, accountId);
+            Singular.trackEvent("reject");
         }
 
 

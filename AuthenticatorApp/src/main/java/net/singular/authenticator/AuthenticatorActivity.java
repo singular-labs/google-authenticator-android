@@ -854,10 +854,12 @@ public class AuthenticatorActivity extends TestableActivity {
       SingularFCMProxyProtocol proxy = new SingularFCMProxyProtocol(
               mRemoteRegistrationID, mRemotePSK);
       proxy.sendHello();
+      Singular.trackEvent("pairingCompleted");
     }
     catch (JSONException e)
     {
       Toast.makeText(getApplicationContext(), "Failed to parse Singular QR :(", Toast.LENGTH_LONG).show();
+      Singular.trackEvent("pairingFailed");
     }
   }
   private void displayHowItWorksInstructions() {
@@ -870,6 +872,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
   private void pairWithSingular2FA()
   {
+    Singular.trackEvent("pairingStarted");
     mBarcodeScanInitiator = BARCODE_SCAN_INITIATOR_SINGULAR;
     scanBarcode();
   }

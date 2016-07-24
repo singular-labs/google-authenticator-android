@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import net.singular.authenticator.testability.DependencyInjector;
+import net.singular.sdk.Singular;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,6 +114,8 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
 
     private void handleGetCode(String from, int id) {
         Log.d(TAG, "handleGetCode: " + Integer.toString(id));
+        Singular.initialize(this);
+        Singular.trackEvent("getCode");
         sendNotification(id, from);
     }
 
