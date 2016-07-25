@@ -129,8 +129,6 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(int id, String from) {
         Intent intent = new Intent(this, AuthenticatorActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
 
         SingularCodeUtils singularCodeUtils = DependencyInjector.getSingularCodeUtils();
         String accountName = singularCodeUtils.getUsername(id);
@@ -151,8 +149,9 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
                 .setVibrate(new  long[] {1})
                 .addAction(approveAction)
                 .addAction(rejectAction)
-                .setDeleteIntent(buildPendingIntent(id, from, false))
-                .setContentIntent(pendingIntent);
+                .setDeleteIntent(buildPendingIntent(id, from, false));
+// TODO: add a approve / reject activity
+//                .setContentIntent(pendingIntent);
 
         notificationBuilder.extend(new NotificationCompat.WearableExtender().
                 addAction(approveAction).
