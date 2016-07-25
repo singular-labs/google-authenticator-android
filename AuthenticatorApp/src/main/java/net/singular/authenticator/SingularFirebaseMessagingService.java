@@ -146,11 +146,12 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(notificationText)
                 .setSmallIcon(R.drawable.app_icon_flat)
                 .setColor(0x0F9EF4)
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .setSound(defaultSoundUri)
                 .setVibrate(new  long[] {1})
                 .addAction(approveAction)
                 .addAction(rejectAction)
+                .setDeleteIntent(buildPendingIntent(id, from, false))
                 .setContentIntent(pendingIntent);
 
         notificationBuilder.extend(new NotificationCompat.WearableExtender().
@@ -172,9 +173,13 @@ public class SingularFirebaseMessagingService extends FirebaseMessagingService {
     private NotificationCompat.Action getAction(int id, String from, String title, int icon, boolean approve) {
         return new NotificationCompat.Action.Builder(
                     icon, title,
-                    PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
-                            getIntent(id, from, approve),
-                            PendingIntent.FLAG_UPDATE_CURRENT)).build();
+                buildPendingIntent(id, from, approve)).build();
+    }
+
+    private PendingIntent buildPendingIntent(int id, String from, boolean approve) {
+        return PendingIntent.getBroadcast(this, GET_CODE_REQ_CODE,
+                getIntent(id, from, approve),
+                PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @NonNull
